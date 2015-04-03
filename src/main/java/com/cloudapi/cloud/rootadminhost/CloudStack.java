@@ -20,7 +20,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import javax.swing.text.Document;
+import org.w3c.dom.Document;
 import javax.xml.bind.DatatypeConverter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -142,8 +142,8 @@ public class CloudStack {
         client.executeMethod(method);
         System.out.println(method.getResponseBodyAsString());
         response = handleResponse(method.getResponseBodyAsStream());
-        // System.out.println("response: "+method.getPath());
-        System.out.println("response: " + method.getResponseBodyAsStream());
+        System.out.println("response: "+method.getPath());
+      //  System.out.println("response: " + method.getResponseBodyAsStream());
         method.releaseConnection();
         return response;
     }
@@ -158,11 +158,11 @@ public class CloudStack {
     private Document handleResponse(InputStream ResponseBodyAsStream) throws javax.xml.parsers.ParserConfigurationException, org.xml.sax.SAXException, java.io.IOException, CloudStackException, XPathExpressionException {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-       // logger.debug(ResponseBody);
-     // System.out.println(ResponseBody);
+       logger.debug(ResponseBodyAsStream);
+      System.out.println(ResponseBodyAsStream);
         Document doc =  (Document) dbFactory.newDocumentBuilder().parse(ResponseBodyAsStream);
         //logger.debug(doc);
-     System.out.println(doc);
+     //System.out.println(doc);
         XPathFactory factory = XPathFactory.newInstance();
         XPath xpath = factory.newXPath();
         try {
