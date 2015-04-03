@@ -18,7 +18,7 @@ public class listHosts {
 
         CloudStack client = CLI.factory();
         HashMap<String, String> options = CLI.args_to_options(args);
-        Document hosts_list = (Document) client.listHosts(options);
+        Document hosts_list = (Document)client.listHosts(options);
         String elements[] = {"id", "hypervisor", "ipaddress", "podid","oscategoryid","zoneid"};
         CLI.printDocument((Document) hosts_list, "//hosts", elements);
     }

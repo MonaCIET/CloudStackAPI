@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Collections;
@@ -23,6 +24,7 @@ import javax.swing.text.Document;
 import javax.xml.bind.DatatypeConverter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -34,7 +36,12 @@ import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.util.EncodingUtil;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.codehaus.plexus.digest.Digester;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import static sun.org.mozilla.javascript.ScriptRuntime.in;
 
 /**
  *
@@ -54,6 +61,8 @@ public class CloudStack {
     //apikey for accessing the user accounts.
     private static String apikey;
 
+    private static final Log logger = LogFactory.getLog(CloudStack.class);
+
     CloudStack(String new_secret, String new_apikey) {
 
         secret = "_ryH9nn-0M1zfVWkKOJOt_cwQWvQPdK8DleUB_IYZ2L3308k8nfcCkg1eKp1gPxC70JEeCpxd72l5ZOwipw7Mw";
@@ -61,10 +70,10 @@ public class CloudStack {
         apikey = "F8xoPUX_t9Iokbi349rnPsdCfmHoRsi2xk1Llgac1KtVUZdITptw2O66Zu1EkZxMHPOS207pvp7mLlLRwSpRgA";
     }
 
-    public Document addHosts(String id, String ipaddress, String podid, String oscategoryid,String zoneid, HashMap<String, String> optional) throws Exception {
+    public Document addHosts(String id, String ipaddress, String podid, String oscategoryid, String zoneid, HashMap<String, String> optional) throws Exception {
         LinkedList<NameValuePair> arguments = newQueryValues("addHost", optional);
         arguments.add(new NameValuePair("id", id));
-        arguments.add(new NameValuePair("ipaddress",ipaddress));
+        arguments.add(new NameValuePair("ipaddress", ipaddress));
         arguments.add(new NameValuePair("podid", podid));
         arguments.add(new NameValuePair("oscategoryid", oscategoryid));
         arguments.add(new NameValuePair("zoneid", zoneid));
@@ -74,28 +83,20 @@ public class CloudStack {
     //this method lists the arguments in the list host.
     public Document listHosts(HashMap<String, String> optional) throws Exception {
         LinkedList<NameValuePair> arguments = newQueryValues("listHosts", optional);
-         System.out.print(arguments);
+        System.out.print(arguments);
         return Request(arguments);
     }
 //
-//    //obtain the username and password using apikey.
-//    public Document login(String username, String password, HashMap<String, String> optional) throws Exception {
-//        LinkedList<NameValuePair> arguments = newQueryValues("login", optional);
-//        System.out.print(arguments);
-//        arguments.add(new NameValuePair("username", username));
-//        arguments.add(new NameValuePair("password", password));
-//        //System.out.print(arguments);
-//        return Request(arguments);
-//    }
-    //add new query values to the list.
+   //add new query values to the list.
     private LinkedList<NameValuePair> newQueryValues(String command, HashMap<String, String> optional) {
         LinkedList<NameValuePair> queryValues = new LinkedList<>();
         queryValues.add(new NameValuePair("command", command));
         //String apikey = "Sfs-bdpx5Eu_oYGrOGavwMPudoJYcTtNEbohknlMaq8TxuKKxJulhzG9s7cc3aWnPVBfxn9BEVGRwkWxjbMDcg";
         queryValues.add(new NameValuePair("apiKey", apikey));
         if (optional != null) {
-            for (Iterator<Map.Entry<String, String>> it = optional.entrySet().iterator(); it.hasNext();) {
-                Map.Entry pairs = it.next();
+            Iterator optional_it = optional.entrySet().iterator();
+            while (optional_it.hasNext()) {
+                Map.Entry pairs = (Map.Entry) optional_it.next();
                 queryValues.add(new NameValuePair((String) pairs.getKey(), (String) pairs.getValue()));
             }
         }
@@ -127,7 +128,7 @@ public class CloudStack {
     private HttpMethod makeHttpGet(LinkedList<NameValuePair> queryValues) throws Exception {
         String query_signature = sign_request(queryValues);
         queryValues.add(new NameValuePair("signature", query_signature));
-        HttpMethod method = new GetMethod("http://demo.fogpanel.com:8080/client/");
+        HttpMethod method = new GetMethod("http://demo.fogpanel.com:8080/client/api");
         method.setFollowRedirects(true);
         method.setQueryString(queryValues.toArray(new NameValuePair[0]));
         return method;
@@ -139,7 +140,7 @@ public class CloudStack {
         HttpClient client = new HttpClient();
         Document response = null;
         client.executeMethod(method);
-        //System.out.println(method.getResponseBodyAsString());
+        System.out.println(method.getResponseBodyAsString());
         response = handleResponse(method.getResponseBodyAsStream());
         // System.out.println("response: "+method.getPath());
         System.out.println("response: " + method.getResponseBodyAsStream());
@@ -147,7 +148,6 @@ public class CloudStack {
         return response;
     }
 
-    
     public class CloudStackException extends Exception {
 
         CloudStackException(String errorcode, String errortext) {
@@ -155,10 +155,14 @@ public class CloudStack {
         }
     }
 
-    private Document handleResponse(InputStream ResponseBody) throws javax.xml.parsers.ParserConfigurationException, org.xml.sax.SAXException, java.io.IOException, CloudStackException, XPathExpressionException {
+    private Document handleResponse(InputStream ResponseBodyAsStream) throws javax.xml.parsers.ParserConfigurationException, org.xml.sax.SAXException, java.io.IOException, CloudStackException, XPathExpressionException {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-        Document doc = (Document) dBuilder.parse(ResponseBody);
+       // logger.debug(ResponseBody);
+     // System.out.println(ResponseBody);
+        Document doc =  (Document) dbFactory.newDocumentBuilder().parse(ResponseBodyAsStream);
+        //logger.debug(doc);
+     System.out.println(doc);
         XPathFactory factory = XPathFactory.newInstance();
         XPath xpath = factory.newXPath();
         try {
@@ -173,6 +177,14 @@ public class CloudStack {
             // ignore, should never happen
         }
         return doc;
+    }
+
+    public static Document xmlStringToDocument(String response) throws IOException, ParserConfigurationException, SAXException {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        InputSource is = new InputSource(new StringReader(response));
+        Document dom = (Document) builder.parse(is);
+        return dom;
     }
 
     // Logout
