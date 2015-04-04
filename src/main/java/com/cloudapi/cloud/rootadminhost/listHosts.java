@@ -19,7 +19,13 @@ public class listHosts {
         CloudStack client = CLI.factory();
         HashMap<String, String> options = CLI.args_to_options(args);
         Document hosts_list = (Document)client.listHosts(options);
-        String elements[] = {"id", "hypervisor", "ipaddress", "podid","oscategoryid","zoneid"};
-        CLI.printDocument((Document) hosts_list, "//hosts", elements);
+        System.out.println("Request paramenters");
+        String elements[] = {"clusterid","details","hahost", "id", "keyword", "name", "podid","resourcestate","state","type","virtualmachineid", "zoneid"};
+       // CLI.printDocument((Document) hosts_list, "//hosts", elements);
+        CloudHostResponse hosts=new CloudHostResponse(client);
+        Document response_list = client.listHosts(options);
+        System.out.println("response paramenters");
+        CLI.printDocument(response_list, "//host", elements);
     }
+    
 }

@@ -38,10 +38,8 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.util.EncodingUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.codehaus.plexus.digest.Digester;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import static sun.org.mozilla.javascript.ScriptRuntime.in;
 
 /**
  *
@@ -49,35 +47,17 @@ import static sun.org.mozilla.javascript.ScriptRuntime.in;
  */
 public class CloudStack {
 
-    //enter the username
-    private static String username;
-
-    //enter the password for validation whether he is a authorized or unauthorized users
-    private static String password;
-
     //secret key for generating signature
     private String secret;
 
     //apikey for accessing the user accounts.
     private static String apikey;
 
-    private static final Log logger = LogFactory.getLog(CloudStack.class);
-
     CloudStack(String new_secret, String new_apikey) {
 
         secret = "_ryH9nn-0M1zfVWkKOJOt_cwQWvQPdK8DleUB_IYZ2L3308k8nfcCkg1eKp1gPxC70JEeCpxd72l5ZOwipw7Mw";
 
         apikey = "F8xoPUX_t9Iokbi349rnPsdCfmHoRsi2xk1Llgac1KtVUZdITptw2O66Zu1EkZxMHPOS207pvp7mLlLRwSpRgA";
-    }
-
-    public Document addHosts(String id, String ipaddress, String podid, String oscategoryid, String zoneid, HashMap<String, String> optional) throws Exception {
-        LinkedList<NameValuePair> arguments = newQueryValues("addHost", optional);
-        arguments.add(new NameValuePair("id", id));
-        arguments.add(new NameValuePair("ipaddress", ipaddress));
-        arguments.add(new NameValuePair("podid", podid));
-        arguments.add(new NameValuePair("oscategoryid", oscategoryid));
-        arguments.add(new NameValuePair("zoneid", zoneid));
-        return Request(arguments);
     }
 
     //this method lists the arguments in the list host.
@@ -87,8 +67,9 @@ public class CloudStack {
         return Request(arguments);
     }
 //
-   //add new query values to the list.
-    private LinkedList<NameValuePair> newQueryValues(String command, HashMap<String, String> optional) {
+    //add new query values to the list.
+
+    LinkedList<NameValuePair> newQueryValues(String command, HashMap<String, String> optional) {
         LinkedList<NameValuePair> queryValues = new LinkedList<>();
         queryValues.add(new NameValuePair("command", command));
         //String apikey = "Sfs-bdpx5Eu_oYGrOGavwMPudoJYcTtNEbohknlMaq8TxuKKxJulhzG9s7cc3aWnPVBfxn9BEVGRwkWxjbMDcg";
@@ -118,7 +99,7 @@ public class CloudStack {
         return DatatypeConverter.printBase64Binary(digest);
     }
 
-    private Document Request(LinkedList<NameValuePair> queryValues) throws Exception {
+    Document Request(LinkedList<NameValuePair> queryValues) throws Exception {
         HttpMethod method;
         method = makeHttpGet(queryValues);
         return executeGet(method);
@@ -140,15 +121,16 @@ public class CloudStack {
         HttpClient client = new HttpClient();
         Document response = null;
         client.executeMethod(method);
+        System.out.println("\n");
         System.out.println(method.getResponseBodyAsString());
         response = handleResponse(method.getResponseBodyAsStream());
-        System.out.println("response: "+method.getPath());
-      //  System.out.println("response: " + method.getResponseBodyAsStream());
+        System.out.println("response: " + method.getPath());
+        //System.out.println("response: " + method.getResponseBodyAsStream());
         method.releaseConnection();
         return response;
     }
 
-    public class CloudStackException extends Exception {
+     public class CloudStackException extends Exception {
 
         CloudStackException(String errorcode, String errortext) {
             super(errorcode + ": " + errortext);
@@ -158,11 +140,9 @@ public class CloudStack {
     private Document handleResponse(InputStream ResponseBodyAsStream) throws javax.xml.parsers.ParserConfigurationException, org.xml.sax.SAXException, java.io.IOException, CloudStackException, XPathExpressionException {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-       logger.debug(ResponseBodyAsStream);
-      System.out.println(ResponseBodyAsStream);
-        Document doc =  (Document) dbFactory.newDocumentBuilder().parse(ResponseBodyAsStream);
-        //logger.debug(doc);
-     //System.out.println(doc);
+        // System.out.println(ResponseBodyAsStream);
+        Document doc = (Document) dbFactory.newDocumentBuilder().parse(ResponseBodyAsStream);
+        //  System.out.println(doc);
         XPathFactory factory = XPathFactory.newInstance();
         XPath xpath = factory.newXPath();
         try {
