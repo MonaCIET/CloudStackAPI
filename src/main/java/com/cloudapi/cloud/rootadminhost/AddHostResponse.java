@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * 
  */
 package com.cloudapi.cloud.rootadminhost;
 
@@ -11,185 +9,140 @@ package com.cloudapi.cloud.rootadminhost;
  */
 class AddHostResponse {
 
-    /**
-     * the ID of the host
-     */
+    // the ID of the host
     private String hostId;
-    /**
-     * the cpu average load on the host
-     */
+
+    // the cpu average load on the host
     private String hostAverageLoad;
-    /**
-     * capabilities of the host
-     */
+
+    // capabilities of the host
     private String hostCapabilities;
-    /**
-     * the cluster ID of the host
-     */
+
+    // the cluster ID of the host
     private String hostClusterId;
-    /**
-     * the cluster name of the host
-     */
+
+    // the cluster name of the host
     private String HostClusterName;
-    /**
-     * the cluster type of the cluster that host belongs to
-     */
+
+    // the cluster type of the cluster that host belongs to
     private String hostClusterType;
-    /**
-     * the amount of the host's CPU currently allocated
-     */
+
+    // the amount of the host's CPU currently allocated
     private String hostCpuAllocated;
-    /**
-     * the CPU number of the host
-     */
+
+    // the CPU number of the host
     private String hostCpuNumber;
-    /**
-     * the CPU speed of the host
-     */
+
+    // the CPU speed of the host
     private String hostCpuSpeed;
-    /**
-     * the amount of the host's CPU currently used
-     */
+
+    // the amount of the host's CPU currently used
     private String hostCpuUsed;
-    /**
-     * the amount of the host's CPU after applying the
-     * cpu.overprovisioning.factor
-     */
+
+    // the amount of the host's CPU after applying the cpu.overprovisioning.factor
     private String hostCpuWithOverProvisioning;
-    /**
-     * the date and time the host was created
-     */
+
+    //the date and time the host was created
     private String hostCreatedDate;
-    /**
-     * true if the host is disconnected. False otherwise.
-     */
+
+    // true if the host is disconnected. False otherwise.
     private String hostDisconnected;
-    /**
-     * the host's currently allocated disk size
-     */
+
+    // the host's currently allocated disk size
     private String hostDiskSizeAllocated;
-    /**
-     * the total disk size of the host
-     */
+
+    // the total disk size of the host
     private String hostDiskSizeTotal;
-    /**
-     * events available for the host
-     */
+
+    // events available for the host
     private String hostEvents;
-    /**
-     * true if this host has enough CPU and RAM capacity to migrate a VM to it,
-     * false otherwise
-     */
+
+    // true if this host has enough CPU and RAM capacity to migrate a VM to it, false otherwise
     private String hasEnoughCapacity;
-    /**
-     * comma-separated list of tags for the host
-     */
+
+    // comma-separated list of tags for the host
     private String hostTags;
-    /**
-     * the host hypervisor
-     */
+
+    // the host hypervisor
     private String hostHypervisor;
-    /**
-     * the hypervisor version
-     */
+
+    // the hypervisor version
     private String hypervisorVersion;
-    /**
-     * the IP address of the host
-     */
+
+    // the IP address of the host
     private String hostIpAddress;
-    /**
-     * true if local storage is active, false otherwise
-     */
+
+    // true if local storage is active, false otherwise
     private String isLocalStorageActive;
-    /**
-     * the date and time the host was last pinged
-     */
+
+    // the date and time the host was last pinged
     private String hostLastPinged;
-    /**
-     * the management server ID of the host
-     */
+
+    // the management server ID of the host
     private String hostManagementServerId;
-    /**
-     * the amount of the host's memory currently allocated
-     */
+
+    //the amount of the host's memory currently allocated
     private String hostMemoryAllocated;
-    /**
-     * the memory total of the host
-     */
+
+    // the memory total of the host
     private String hostMemoryTotal;
-    /**
-     * the amount of the host's memory currently used
-     */
+
+    // the amount of the host's memory currently used
     private String hostMemoryUsed;
-    /**
-     * the name of the host
-     */
+
+    //the name of the host
     private String hostName;
-    /**
-     * the incoming network traffic on the host
-     */
+
+    // the incoming network traffic on the host
     private String hostNetworKbbsRead;
-    /**
-     * the outgoing network traffic on the host
-     */
+
+    // the outgoing network traffic on the host
     private String hostNetworKbbsWrite;
-    /**
-     * the OS category ID of the host
-     */
+
+    // the OS category ID of the host
     private String hostOsCategoryId;
-    /**
-     * the OS category name of the host
-     */
+
+    // the OS category name of the host
     private String hostOsCategoryName;
-    /**
-     * the Pod ID of the host
-     */
+
+    // the Pod ID of the host
     private String hostPodId;
-    /**
-     * the Pod name of the host
-     */
+
+    // the Pod name of the host
     private String hostPodName;
-    /**
-     * the date and time the host was removed
-     */
+
+    // the date and time the host was removed
     private String hostRemovedDate;
-    /**
-     * the resource state of the host
-     */
+
+    // the resource state of the host
     private String hostResourceState;
-    /**
-     * the state of the host
-     */
+
+    // the state of the host
     private String hostSate;
+
     /**
      * true if this host is suitable(has enough capacity and satisfies all
-     * conditions like hosttags, max guests vm limit etc) to migrate a VM to it
+     * conditions like host tags, max guests vm limit etc) to migrate a VM to it
      * , false otherwise
      */
     private String suitableForMigration;
-    /**
-     * the host type
-     */
+
+    // the host type
     private String hostType;
-    /**
-     * the host version
-     */
+
+    // the host version
     private String hostVersion;
-    /**
-     * the Zone ID of the host
-     */
+
+    // the Zone ID of the host
     private String hostZoneId;
-    /**
-     * the Zone name of the host
-     */
+
+    // the Zone name of the host
     private String hostZoneName;
-    /**
-     * the ID of the latest async job acting on this object
-     */
+
+    // the ID of the latest async job acting on this object
     private String jobId;
-    /**
-     * the current status of the latest async job acting on this object
-     */
+
+    // the current status of the latest async job acting on this object
     private String jobStatus;
 
     public String getHostId() {
@@ -544,5 +497,3 @@ class AddHostResponse {
         this.jobStatus = jobStatus;
     }
 }
-
-

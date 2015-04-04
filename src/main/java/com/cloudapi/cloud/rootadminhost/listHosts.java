@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * THe main class gets the expected response by creating factory class and executes the host response.
  */
 package com.cloudapi.cloud.rootadminhost;
 
@@ -10,7 +8,7 @@ import org.w3c.dom.Document;
 
 /**
  *
- * @author intern
+ * @author Mona<mohanapriya0713@gmail.com>
  */
 public class listHosts {
 

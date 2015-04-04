@@ -1,23 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * It access the root admin api by using apikey and generates response in the xml format.
  */
 package com.cloudapi.cloud.rootadminhost;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
+
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import org.w3c.dom.Document;
@@ -30,14 +25,13 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.util.EncodingUtil;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -66,9 +60,8 @@ public class CloudStack {
         System.out.print(arguments);
         return Request(arguments);
     }
-//
-    //add new query values to the list.
 
+    //add new query values to the list.
     LinkedList<NameValuePair> newQueryValues(String command, HashMap<String, String> optional) {
         LinkedList<NameValuePair> queryValues = new LinkedList<>();
         queryValues.add(new NameValuePair("command", command));

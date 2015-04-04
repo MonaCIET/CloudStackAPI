@@ -7,10 +7,9 @@ package com.cloudapi.cloud.rootadminhost;
 
 /**
  *
- * @author intern
+ * @author Mona<mohanapriya0713@gmail.com>
  */
 import java.util.HashMap;
-import java.util.Scanner;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
 import javax.xml.xpath.XPathExpression;
@@ -58,7 +57,7 @@ public class CLI {
         return options;
     }
 
-    //print the list of the elements in the api
+    //print the list of the elements in the root domain api
     public static void printDocument(Document reply, String items, String properties[]) throws XPathExpressionException {
         XPathFactory factory = XPathFactory.newInstance();
         XPath xpath = factory.newXPath();
@@ -92,6 +91,7 @@ public class CLI {
         }
     }
 
+    // this method use to print the root element and sub element of root domain api.
     public static void printSomething(Document reply) throws XPathExpressionException {
         XPathFactory factory = XPathFactory.newInstance();
         XPath xpath = factory.newXPath();

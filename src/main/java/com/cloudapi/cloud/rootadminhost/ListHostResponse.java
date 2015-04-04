@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *This class uses getter setter properties for listing the hosts.
+ *
  */
 package com.cloudapi.cloud.rootadminhost;
 
@@ -9,10 +8,11 @@ import java.util.List;
 
 /**
  *
- * @author intern
+ * @author Mona<mohanapriya0713@gmail.com>
  */
 public class ListHostResponse {
 
+    //gives the host lists.
     private List<AddHostResponse> hosts;
 
     public List<AddHostResponse> getHosts() {

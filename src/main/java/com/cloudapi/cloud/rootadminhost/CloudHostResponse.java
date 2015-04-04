@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * It generates the host responses by comparing values with root admin api and used object from cloudstack
+ *
  */
 package com.cloudapi.cloud.rootadminhost;
 
@@ -18,16 +17,18 @@ import org.w3c.dom.NodeList;
  */
 public class CloudHostResponse {
 
+    //calling client variable from cloudstack
     private CloudStack client;
 
+    //using the constructor passing client value.
     public CloudHostResponse(CloudStack client) {
         this.client = client;
     }
+    
     /**
-     * Lists hosts.
-     *     
+     * Lists hosts lists the arguments 
      * @param optional
-     * @return
+     * @return response for listHost Response.
      * @throws Exception
      */
     public ListHostResponse listHosts(HashMap<String, String> optional)throws Exception {
@@ -38,9 +39,8 @@ public class CloudHostResponse {
 
     /**
      * Converts XML document into ListHostsResponse object
-     *     
      * @param doc
-     * @return
+     * @return the arguments list
      */
     private ListHostResponse getListHostResponse(Document doc) {
         ListHostResponse response = new ListHostResponse();
