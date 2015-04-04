@@ -138,7 +138,7 @@ public class CloudHostResponse {
                     }
                 }
                 hosts.add(host);
-                System.out.println(hosts);
+               // System.out.println(hosts);
             }
         }
         response.setHosts(hosts);

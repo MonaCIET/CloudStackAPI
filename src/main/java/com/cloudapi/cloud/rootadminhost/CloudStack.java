@@ -45,7 +45,7 @@ public class CloudStack {
     private String secret;
 
     //apikey for accessing the user accounts.
-    private static String apikey;
+    private String apikey;
 
     CloudStack(String new_secret, String new_apikey) {
 
@@ -123,7 +123,7 @@ public class CloudStack {
         return response;
     }
 
-     public class CloudStackException extends Exception {
+    public class CloudStackException extends Exception {
 
         CloudStackException(String errorcode, String errortext) {
             super(errorcode + ": " + errortext);
@@ -135,35 +135,7 @@ public class CloudStack {
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         // System.out.println(ResponseBodyAsStream);
         Document doc = (Document) dbFactory.newDocumentBuilder().parse(ResponseBodyAsStream);
-        //  System.out.println(doc);
-        XPathFactory factory = XPathFactory.newInstance();
-        XPath xpath = factory.newXPath();
-        try {
-            XPathExpression error_code_path = xpath.compile("/*/errorcode/text()");
-            XPathExpression error_text_path = xpath.compile("/*/errortext/text()");
-            String error_code = (String) error_code_path.evaluate(doc, XPathConstants.STRING);
-            String error_text = (String) error_text_path.evaluate(doc, XPathConstants.STRING);
-            if (error_code.length() > 0) {
-                throw new CloudStackException(error_code, error_text);
-            }
-        } catch (XPathExpressionException e) {
-            // ignore, should never happen
-        }
         return doc;
-    }
-
-    public static Document xmlStringToDocument(String response) throws IOException, ParserConfigurationException, SAXException {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        InputSource is = new InputSource(new StringReader(response));
-        Document dom = (Document) builder.parse(is);
-        return dom;
-    }
-
-    // Logout
-    public Document logout() throws Exception {
-        LinkedList<NameValuePair> arguments = newQueryValues("logout", null);
-        return Request(arguments);
     }
 
 }

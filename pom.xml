@@ -24,6 +24,12 @@
             <version>4.3.6</version>
             <type>jar</type>
         </dependency>
+<!--        <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-digester3</artifactId>
+        <version>3.2</version>
+        <classifier>with-deps</classifier>
+      </dependency>-->
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
